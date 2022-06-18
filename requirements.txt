@@ -1,0 +1,6 @@
+regex
+spacy
+tensorboardX
+six
+fairseq==0.9.0
+transformers

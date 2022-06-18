@@ -1,0 +1,5 @@
+/trained_model/
+/roberta_large/
+*.pyc
+.idea/
+*.sh~
