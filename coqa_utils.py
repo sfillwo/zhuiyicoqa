@@ -22,6 +22,18 @@ class CoQAReader():
         self.question_sep = question_sep
         self.answer_sep = answer_sep
 
+    def get_input(self, context): #modsf
+        question = input('Question: ')
+        turn_id = len(context["data"][0]["questions"])
+        context["data"][0]["questions"].append(
+            {"input_text": question, "turn_id": turn_id+1}
+        )
+        context["data"][0]["answers"].append(
+            {'span_start': 0, 'span_end': 1, 'span_text': 'xxx', 'input_text': 'yyy', 'turn_id': turn_id+1}
+        )
+        instances = self._read(context, "test")
+        return instances
+
     def read(self, file_path, data_type):
         if data_type not in ["train", "dev", "test"]:
             raise ValueError()
@@ -31,9 +43,11 @@ class CoQAReader():
         return instances
 
     def _read(self, source, data_type):
-        with open(source, 'r', encoding='utf-8') as f:
-            source_data = json.load(f)
-
+        if not isinstance(source, dict):
+            with open(source, 'r', encoding='utf-8') as f:
+                source_data = json.load(f)
+        else:
+            source_data = source
         storys = []
         questions = []
         answers = []
